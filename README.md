@@ -1,2 +1,2 @@
 # BigQuery-SQL
-BigQueryでよく使うSQLをまとめたリポジトリ
+BigQueryで使用したSQLを保存しておくためのリポジトリ
