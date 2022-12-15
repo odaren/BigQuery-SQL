@@ -32,3 +32,12 @@ WHILE x <= array_length(array_name) DO
   SET x = x + 1;
 END WHILE;
 
+
+-- ---------------------------------------------------
+-- 特定の時間以前に作成され、特定の文字列を含むテーブルのメタデータを参照するクエリ
+-- ---------------------------------------------------
+SELECT
+  table_Schema,table_name
+FROM
+  region-asia-northeast1.INFORMATION_SCHEMA.TABLES
+WHERE creation_time < '2022-10-14'and table_name like '%any-string%'
