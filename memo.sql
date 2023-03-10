@@ -41,3 +41,22 @@ SELECT
 FROM
   region-asia-northeast1.INFORMATION_SCHEMA.TABLES
 WHERE creation_time < '2022-10-14'and table_name like '%any-string%'
+
+
+-- ---------------------------------------------------
+-- ユーザー毎の料金を算出するクエリ
+-- ---------------------------------------------------
+SELECT
+  -- ユーザー名
+  user_email,
+  -- 課金額($) = 課金対象の参照データ量(B) × 料金体系($6/TB)
+  ROUND(SUM(total_bytes_billed)/ pow(1024, 4) * 6, 2) AS price,
+FROM
+  -- プロジェクトのジョブのメタデータを取得
+  `region-asia-northeast1`.INFORMATION_SCHEMA.JOBS_BY_PROJECT
+WHERE
+  -- 対象のジョブを実行済みのクエリだけにフィルタ
+  job_type = "QUERY" AND state = "DONE"
+GROUP BY
+  -- ユーザー単位で集約
+  user_email
